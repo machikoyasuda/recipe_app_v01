@@ -1,63 +1,102 @@
 import React, { Component } from 'react';
 import './App.css';
+import Navbar from "./components/navbar.component";
+import RecipeCards from "./components/recipeCards.component";
+import Results from "./components/results.component";
+import Search from "./components/search.component";
 
 
-class Search extends Component {
-  constructor(props) {
+export default class App extends Component{
+
+
+  constructor(props){
     super(props);
     this.state = {
-      usedIngredients: [],
-      unusedIngredients: [],
-      queryIngredients: "", //word,+word,+word,+
-      loading: true
-    };
-
-    this.mySubmitHandler = this.mySubmitHandler.bind(this);
+      items: [],
+      isLoaded: false
+    }
   }
 
 
-  async componentDidMount() {
-    const url = `https://api.spoonacular.com/recipes/findByIngredients?ingredients=${this.state.queryIngredients}&apiKey=d8e412b1f6d94b408526f35e65f4d432`
-    const response = await fetch(url);
-    const data = await response.json();
-    console.log(data)
-  };
-
-  mySubmitHandler = e => {
-    var queryUnedited = e.target.value;
-    var queryEdited = queryUnedited.replace(' ', '');
-    console.log(`query unedited is ${queryUnedited} \n queryEdited is ${queryEdited}`)
-    this.setState({queryIngredients: queryEdited, loading: false})
-  };
-
-  // fetch(`https://api.spoonacular.com/recipes/findByIngredients?ingredients=${this.state.queryIngredients}&apiKey=d8e412b1f6d94b408526f35e65f4d432`)
-  //   .then(results => {
-  //     return results.json();
-  //   }).then(data => {
-  //     let recipes = data.results.map((item) => {
-  //       return(
-  //         <div key={item.id}>
-  //           <h1>{item.title}</h1>
-  //           <img src={item.image}>
-  //           <h3>You'll use {item.}</h3>
-        // )
-      // })
-    // })
-  // }
-
-  render() {
-  return (
-    <div className="App">
-      {this.state.loading ? <div>...loading</div> : <div>recipe</div>}
-      <form onSubmit={this.mySubmitHandler}>
-        <h4>Search for items here, separated by commas: </h4>
-        <input type="text"/>
-        <input type="submit"/>
-      </form>
+render() {
+  return(
+    <div>
+      <Navbar />
+      <Search />
+      <Results />
+      <RecipeCards />
     </div>
   )
 };
-};
+
+}
 
 
-export default Search;
+//navbar
+
+//load search component OR results component(w/ recipe cards)
+
+
+
+
+
+
+
+
+//   componentDidMount() {
+//
+//     fetch('https://jsonplaceholder.typicode.com/todos')
+//       .then(res => res.json())  //convert to json format
+//       .then(json => { //take json and setstate
+//         this.setState({ //not only gets data from api, but saves it so we can reuse
+//           isLoaded: true,  //WHILE LOADING, DO SOMETHING.
+//           items: json
+//         })
+//       })
+//       .then(console.log(this.state.items))
+//       .then(ifCompleted())
+//
+//   }
+//
+//   ifCompleted(completed) {
+//     var items = this.state.items
+//     for
+//
+//     ///// lOOP THROUGH COMPLETED. IF COMPLETED ADD TO VAR ABOVE. USE THIS TO MAP
+//     if this.state.items.completed
+//   }
+//
+//   render() {
+//
+//     var { isLoaded, items } = this.state; //accesses state items w/o calling this.state every time
+//
+//     if (!isLoaded) {  //WHILE LOADING, DO SOMETHING
+//       return <div>...loading...</div>
+//     } else {
+//
+//     return (
+//       <div className="App">
+//         <header className="App-header">
+//
+//         </header>
+//         <ul>
+//           {items.map(item => {
+//             return (this.item.complete ?
+//               (
+//               <li className="completed" key={item.id}>
+//                 {item.title} | {item.completed}
+//               </li>
+//             )
+//             :
+//               (
+//               <li key={item.id}>
+//                 {item.title} | {item.completed}
+//               </li>
+//             ))
+//           }
+//         )}
+//         </ul>
+//       </div>
+//     );
+//   }}
+// }
