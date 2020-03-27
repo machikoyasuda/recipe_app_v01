@@ -10,11 +10,9 @@ export default class IngAdd extends Component{
             <input
               type="text"
               placeholder="add ingredient"
-              value={this.props.newIngHandleInput}
-              onChange={this.props.addIng} />
+              value={this.props.newIng.name}
+              onChange={this.props.newIngHandleInput} />
             <button type="submit">Add</button>
-          {/*onClick goes to final screen*/}
-          <button onClick={this.props.next}>Next</button>
         </form>
       </div>
 
