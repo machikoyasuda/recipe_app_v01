@@ -24,13 +24,11 @@ export default class IngList extends Component{
     {/*run each item through function above*/}
     return(
     //return below
-      <div>lets search
+      <div>
         <form>
           <label>You are searching for recipes with:</label>
           {/*onClick goes to final screen*/}
-          <li>
             <ul className="mappedIngs">{mappedIngs}</ul>
-          </li>
           <button onClick={this.props.next}>Next</button>
         </form>
       </div>
