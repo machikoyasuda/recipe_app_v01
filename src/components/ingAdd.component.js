@@ -4,7 +4,7 @@ export default class IngAdd extends Component{
 
   render() {
     return(
-      <div>lets search
+
         <form onSubmit={this.props.addIng}>
           <label>Add an ingredient to the list:</label>
             <input
@@ -14,7 +14,6 @@ export default class IngAdd extends Component{
               onChange={this.props.newIngHandleInput} />
             <button type="submit">Add</button>
         </form>
-      </div>
 
 
     )

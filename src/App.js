@@ -3,7 +3,10 @@ import './App.css';
 import Navbar from "./components/navbar.component";
 import Results from "./components/results.component";
 import Search from "./components/search.component";
+require("dotenv").config(); //so we can have env vars in the dotenv file
 
+
+console.log(process.env.REACT_APP_SPOONACULAR_API_KEY)
 
 export default class App extends Component{
   constructor(props){
@@ -21,7 +24,8 @@ export default class App extends Component{
       //TODO: edit so diet can be null, not input in query string
       chooseDietScreen: true,
       ingScreen: false,
-      finalScreen: false
+      finalScreen: false,
+      resultsLoading: true
     }
 
     this.toggleView = this.toggleView.bind(this); //toggles btwn search and results components
@@ -38,10 +42,26 @@ export default class App extends Component{
     this.next = this.next.bind(this);
     this.onClickAll = this.onClickAll.bind(this);
     this.onClickSome = this.onClickSome.bind(this);
+    this.onClickDietNull = this.onClickDietNull.bind(this);
+    this.resultsLoadingHandler = this.resultsLoadingHandler.bind(this);
   }
 
   toggleView = () => {
-    this.setState({isLoaded: !this.state.isLoaded, resultsVisible: !this.state.resultsVisible})
+    const resultsVisible = this.state.resultsVisible
+    resultsVisible ? //if we are on the results page (true)
+      this.setState({ //go back to search page, reset all states
+        resultsVisible: false,
+        resultsLoading: true,
+        ingList: [],
+        ingListString: "",
+        ingListQuery: "",
+        diet: "",
+        chooseDietScreen: true,
+        ingScreen: false,
+        finalScreen: false
+    }) : //if we are on the search page
+      this.setState({resultsVisible: true}) //go to the results page, set loadingg to true
+    // this.setState({isLoaded: !this.state.isLoaded, resultsVisible: !this.state.resultsVisible})
     //TODO: search visible? results visible? handle onlick last page of search components
     //show a loading screen on results
   }
@@ -94,6 +114,11 @@ onClickDiet(e){
  }, () => console.log(`your diet is: ${this.state.diet}. ingScreen: ${this.state.ingScreen}`))
 }
 
+//if they click omnivore, diet = null (for query string)
+onClickDietNull(){
+  this.setState({chooseDietScreen: false, ingScreen: true}, () => { console.log( `diet: ${this.state.diet}`)})
+}
+
 
 
 //=======================================================
@@ -138,7 +163,9 @@ onClickSome(e){
   //call toggleView, changes the page on app.js
 }
 
-
+resultsLoadingHandler() {
+  this.setState({resultsLoading: false})
+}
 
 
 
@@ -159,6 +186,7 @@ render() {
       {!this.state.resultsVisible ?
         <Search toggleView={this.toggleView}
         onClickDiet={this.onClickDiet}
+        onClickDietNull={this.onClickDietNull}
         // diet={this.state.diet}
         newIng = {this.state.newIng}
         ingList = {this.state.ingList}
@@ -180,6 +208,8 @@ render() {
         <Results toggleView={this.toggleView}
         ingListQuery = {this.state.ingListQuery}
         diet = {this.state.diet}
+        resultsLoadingHandler = {this.resultsLoadingHandler}
+        resultsLoading = {this.state.resultsLoading}
         />}
     </div>
   )
