@@ -1,0 +1,5 @@
+# Ignore NPM packages
+node_modules
+
+# Ignore user-specific code editor files
+.vscode/
